@@ -4,9 +4,11 @@ var QRCode = require('qrcode')
 
 const register = async (req, res) => {
     if (!req.body.identification || !req.body.dateOfBirth
-        || !req.body.sexo || !req.body.name || !req.body.fatherName || !req.body.motherName || !req.body.neighborhood || !req.body.leader) return res.status(400).json(messageBuilder(400, 'Debe rellenar todos los campos', ''))
-    const user = await userModel.findOne({ cedula: req.body.identification })
+        || !req.body.sexo || !req.body.name || !req.body.fatherName
+        || !req.body.motherName || !req.body.neighborhood
+        || !req.body.leader) return res.status(400).json(messageBuilder(400, 'Debe rellenar todos los campos', ''))
     try {
+        const user = await userModel.findOne({ identification: req.body.identification })
         if (!user) {
             const info = {
                 "identification": req.body.identification,
