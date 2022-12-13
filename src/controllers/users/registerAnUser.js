@@ -4,9 +4,11 @@ var QRCode = require('qrcode')
 
 const register = async (req, res) => {
     if (!req.body.identification || !req.body.dateOfBirth
-        || !req.body.sexo || !req.body.name || !req.body.fatherName || !req.body.motherName || !req.body.neighborhood || !req.body.leader) return res.status(400).json(messageBuilder(400, 'Debe rellenar todos los campos', ''))
-    const user = await userModel.findOne({ cedula: req.body.identification })
+        || !req.body.sexo || !req.body.name || !req.body.fatherName
+        || !req.body.motherName || !req.body.neighborhood
+        || !req.body.leader) return res.status(400).json(messageBuilder(400, 'Debe rellenar todos los campos', ''))
     try {
+        const user = await userModel.findOne({ identification: req.body.identification })
         if (!user) {
             const info = {
                 "identification": req.body.identification,
@@ -20,7 +22,7 @@ const register = async (req, res) => {
                 "neighborhood": req.body.neighborhood,
                 "leader": req.body.leader,
             }
-            const QR = await QRCode.toDataURL(JSON.stringify(info))
+            const QR = await QRCode.toDataURL(`${process.env.LINK_TO_FRONTEND}/id/${info.identification}` )
 
             const payload = { ...info, QR }
 
