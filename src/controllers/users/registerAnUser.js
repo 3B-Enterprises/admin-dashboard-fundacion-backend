@@ -22,7 +22,7 @@ const register = async (req, res) => {
                 "neighborhood": req.body.neighborhood,
                 "leader": req.body.leader,
             }
-            const QR = await QRCode.toDataURL(`${process.env.LINK_TO_FRONTEND}/id/${info.identification}` )
+            const QR = await QRCode.toDataURL(`${process.env.LINK_TO_FRONTEND}/carnet/${info.identification}` )
 
             const payload = { ...info, QR }
 
