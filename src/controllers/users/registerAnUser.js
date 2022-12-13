@@ -3,26 +3,34 @@ const userModel = require('../../models/user-models')
 var QRCode = require('qrcode')
 
 const register = async (req, res) => {
-    if (!req.body.identification || !req.body.dateOfBirth
+    if (!req.body.identification|| !req.body.surname
         || !req.body.sexo || !req.body.name || !req.body.fatherName
         || !req.body.motherName || !req.body.neighborhood
-        || !req.body.leader) return res.status(400).json(messageBuilder(400, 'Debe rellenar todos los campos', ''))
+        ) return res.status(400).json(messageBuilder(400, 'Debe rellenar todos los campos', ''))
     try {
         const user = await userModel.findOne({ identification: req.body.identification })
         if (!user) {
+            const lastUser = await userModel.find({}).sort({ consecutive: -1 })
             const info = {
+                "consecutive": lastUser[0].consecutive + 1,
                 "identification": req.body.identification,
                 "identificationType": req.body.identificationType,
-                "dateOfBirth": req.body.dateOfBirth,
-                "sexo": req.body.sexo,
-                "image": req.body.image,
                 "name": req.body.name,
-                "fatherName": req.body.fatherName,
+                "surname": req.body.name.surname,
+                "dateOfBirth": req.body.dateOfBirth,
+                "image": req.body.image,
+                "sexo": req.body.sexo,
+                "phone1": req.body.phone1,
+                "phone2": req.body.phone2,
                 "motherName": req.body.motherName,
+                "zona": req.body.zona,
                 "neighborhood": req.body.neighborhood,
-                "leader": req.body.leader,
+                "address": req.body.address,
+                "fatherName": req.body.fatherName,
+                "anotations": req.body.anotations,
+                "extra": req.body.extra,
             }
-            const QR = await QRCode.toDataURL(`${process.env.LINK_TO_FRONTEND}/${info.identification}` )
+            const QR = await QRCode.toDataURL(`${process.env.LINK_TO_FRONTEND}/${info.identification}`)
 
             const payload = { ...info, QR }
 
