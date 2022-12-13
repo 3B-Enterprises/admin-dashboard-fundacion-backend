@@ -2,6 +2,7 @@ const controller = {}
 const { messageBuilder } = require('../../utils/utils')
 const { defaultRoute } = require('./defaultRoute')
 const { getAllUsers } = require('./getAllUsers')
+const { getUser } = require('./getAUser')
 const { login } = require('./login')
 const { register } = require('./registerAnUser')
 
@@ -41,5 +42,13 @@ controller.createAnUser = async (req, res) => {
     }
 }
 
+controller.getAnUser = async (req,res) => {
+    try {
+        await getUser(req,res)
+    } catch (error) {
+        console.log(error)
+        return messageBuilder(error.statusCode, error.message, '')
+    }
+}
 
 module.exports = controller
