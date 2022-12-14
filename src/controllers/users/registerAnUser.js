@@ -1,6 +1,6 @@
 const { messageBuilder } = require('../../utils/utils')
 const userModel = require('../../models/user-models')
-var QRCode = require('qrcode')
+const QRCode = require('qrcode')
 
 const register = async (req, res) => {
     if (!req.body.identification|| !req.body.surname
