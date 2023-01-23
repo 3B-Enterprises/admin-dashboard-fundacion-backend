@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 const userModel = new mongoose.Schema({
-    consecutive: { type: Number, required: true, unique: true },
+    consecutive: { type: Number, required: true, unique: true, default:1 },
     identification: { type: String, required: true},
     identificationType: { type: String, enum: ['REGISTRO CIVIL', 'TARJETA DE IDENTIDAD'], required: true, default: 'REGISTRO CIVIL' },
     name: { type: String },
